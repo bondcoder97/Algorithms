@@ -3,9 +3,10 @@ let startedArray = [45,12,5,36,89,90,71,3,15,14,42];
 
 // --------------------------ПУЗЫРЬКОВАЯ СОРТИРОВКА -------------------------------------------------------------------------- 
 function bubbleSort(startArray, param = 'under'){
-   let resultArray = [];
+
+ 
    //элемент до которого идет сортировка
-   let endElemOfSort = startArray.length-1;
+   let endElemOfSort = endElemOfSort;
  
    //пока не пройдемся по всем элементам массива
   while(endElemOfSort!=1){
@@ -65,17 +66,94 @@ function moveMin(array, currentElem, nextElem,param = 'under'){
 
 window.bubbleSort = bubbleSort;
 
-//с аргументом
-console.log(...bubbleSort(startedArray,'under'));
+// console.log(...bubbleSort(startedArray,'under'));
 
-console.log(...bubbleSort(startedArray,'over'));
+// console.log(...bubbleSort(startedArray,'over'));
 //--------------------------------ПУЗЫРЬКОВАЯ СОРТИРОВКА : КОНЕЦ -----------------------------------------------------------
 
 // -------------------------- СОРТИРОВКА  ВЫБОРОМ-------------------------------------------------------------------------- 
 
-function chooseSort(startArray){
+//минимум в массиве
+function minInArray(arr){
+    let min = arr[0];
+    let index = 0;
+
+    for(let i=0; i<arr.length; i++){
+       if(arr[i]<min){
+       min = arr[i];
+       index = i;
+       }
+    }
+    return [min,index];
+
+}
+//максимум в массиве
+function maxInArray(arr){
+    let max = arr[0];
+    let index = 0;
+ 
+    for(let i=0; i<arr.length; i++){
+        if(arr[i]>max){
+        max=arr[i];
+        index = i;
+        }
+    }
+    return [max,index];
 
 }
 
+function chooseSort(startArray,param){
 
-//--------------------------------СОРТИРОВКА ВЫБОРОМ: КОНЕЦ -----------------------------------------------------------
+    let endElemOfSort = startArray.length-1;  
+
+    switch(param){
+        //по возрастанию
+        case "over":
+
+        while(endElemOfSort!=1){
+           
+
+    let [max,index] = maxInArray(startArray.slice(0,endElemOfSort+1));
+                                                   
+                startArray[index] = startArray[endElemOfSort];   
+                startArray[endElemOfSort] = max;
+
+            endElemOfSort--;
+           }
+    
+        break;
+
+
+       //по убыванию
+        case "under":
+      
+        while(endElemOfSort!=1){
+           
+
+            let [min,index] = minInArray(startArray.slice(0,endElemOfSort+1));
+                                                           
+                        startArray[index] = startArray[endElemOfSort];   
+                        startArray[endElemOfSort] = min;
+        
+                    endElemOfSort--;
+                   }
+    
+
+        break;
+
+    }
+    
+ 
+    return startArray;
+
+}
+
+console.log(...chooseSort(startedArray,'under'));
+console.log(...chooseSort(startedArray,'over'));
+
+//--------------------------------СОРТИРОВКА ВЫБОРОМ: КОНЕЦ --------------------------------------------------------------
+//-----------------------------------------СОРТИРОВКА ВСТАВКАМИ-----------------------------------------------------------
+
+
+
+//-----------------------------------------СОРТИРОВКА ВСТАВКАМИ:КОНЕЦ-----------------------------------------------------
