@@ -5,7 +5,7 @@ class Cell{
  }
 }
 
-let bounder = new Cell("BOUNDER"); //ограничитель
+let bounder = new Cell("BOUNDER");
 
 class UnitrendList{
     constructor(options={}){
@@ -41,7 +41,7 @@ class UnitrendList{
           top = top.Next;
             
        }
-       //так и не найдено
+       
        return null;
    }
 
@@ -64,24 +64,44 @@ class UnitrendList{
     
     //add cell after certain cell
     addAfter(value, newCell){
+     try{
        let afterMe = this.findCell(value);
+       if(!afterMe) throw new Error("Have not specify find element!");
        newCell.Next = afterMe.Next;
        afterMe.Next = newCell;
+     }
+     catch(err){
+       console.log(err);
+     }
     }
 
     //add before certain cell
     addBefore(value, newCell){
+     try{
        let beforeBeforeMe = this.findCellBefore(value);
-       if(!beforeBeforeMe) return;
+       if(!beforeBeforeMe) throw new Error("Have not element!");
 
        newCell.Next = beforeBeforeMe.Next;
        beforeBeforeMe.Next = newCell;
-       
+     }
+     catch(err){
+       console.log(err);
+     }
+    }
+
+    //delete elem from list
+    deleteElem(value){
+      try{
+        let beforeDeleted = this.findCellBefore(value);
+        if(!beforeDeleted) throw new Error("Have not object for deleting!");
+        beforeDeleted.Next = beforeDeleted.Next.Next;
+      }
+      catch(err){
+         console.log(err);
+      }
     }
 
 }
-
-
 
 
 
