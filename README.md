@@ -1,2 +1,2 @@
 # Algorithms
-Realization of different algorithms
+Implementation of different algorithms
