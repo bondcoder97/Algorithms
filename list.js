@@ -5,11 +5,9 @@ class Cell{
  }
 }
 
-let bounder = new Cell("BOUNDER");
-
 class UnitrendList{
     constructor(options={}){
-        this.top = options.top || new Cell("BOUNDER");
+        this.top = options.top || new Cell("LIMITER");
     }
 
    //iterate all list    
@@ -101,6 +99,10 @@ class UnitrendList{
       }
     }
 
+    getTop(){
+      return this.top;
+    }
+
 }
 
 
@@ -117,10 +119,10 @@ class TwoTrendList extends UnitrendList{
   constructor(options={}){
     super();
     //bounders
-    let bottomBounder = new TwoTrendListCell("BOTTOM BOUNDER");
-    this.top = options.top || new TwoTrendListCell("TOP BOUNDER", bottomBounder);
-    bottomBounder.Previous = this.top;
-    this.bottom = bottomBounder;
+    let bottomLimiter = new TwoTrendListCell("BOTTOM LIMITER");
+    this.top = options.top || new TwoTrendListCell("TOP LIMITER", bottomLimiter);
+    bottomLimiter.Previous = this.top;
+    this.bottom = bottomLimiter;
   }
   
   //METHOD OVERRIDING -------------------------------------------------------------------------------------------------
@@ -212,6 +214,75 @@ class SortedList extends TwoTrendList{
   }
 
   
+}
+//COPY UNITREND LIST
+function CopyList(oldLimiter){
+  //limiter of new list
+    let newLimiter = new Cell("LIMITER");
+    let lastAdded = newLimiter
+    //skip limiter in the old list
+    let oldCell = oldLimiter.Next;
+
+    while(oldCell != null){
+     lastAdded.Next = new Cell();
+     lastAdded = lastAdded.Next;
+     lastAdded.value = oldCell.value;
+      oldCell = oldCell.Next;
+    }
+
+    lastAdded.Next = null;
+    return newLimiter;
+}
+
+//insertion sort of list
+function InsertionSort(input){
+    let limiter = new Cell();
+    limiter.Next = null; 
+    input = input.Next;
+
+    while(input != null){
+         let next_cell = input;
+         input = input.Next;
+         //where you need to insert 
+         let afterMe = limiter;
+         //moment when next cell is more
+         while(afterMe.Next != null && afterMe.Next.value < next_cell.value){
+           afterMe = afterMe.Next;
+         }
+      //insert NEXT_CELL after AFTER_ME
+       next_cell.Next = afterMe.Next;
+       afterMe.Next = next_cell;
+    }
+
+
+  return limiter;
+}
+
+
+
+
+function SelectionSort(input){
+        let limiter = new Cell("LIMITER");
+        limiter.Next = null; //cоздали ограничитель
+        while(input.Next != null){ //пока текущий input не будет ссылаться на null
+             let bestAfterMe = input; 
+             let bestValue = bestAfterMe.Next.value; //берем лучшее значение как значение следующего 
+                                                     //после ограничителя элемента
+             let afterMe = input.Next;
+             while(afterMe.Next != null){
+                  if(afterMe.Next.value > bestValue){
+                    bestAfterMe = afterMe;
+                    bestValue = afterMe.Next.value;
+                  }
+                  afterMe = afterMe.Next;
+             }
+             let bestCell = bestAfterMe.Next;
+             bestAfterMe.Next = bestCell.Next;
+
+             bestCell.Next = limiter.Next;
+             limiter.Next = bestCell;
+        }
+        return limiter;
 }
 
 
