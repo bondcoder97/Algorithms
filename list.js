@@ -287,3 +287,92 @@ function SelectionSort(input){
 
 
 
+//имеет ли список циклы
+function hasLoopMarking(sentinel){
+  let hasLoop = false;
+  let cell = sentinel;
+  while( cell.Next != null){
+     if(cell.Next.Visited){
+       cell.Next = null; //разрываем цикл
+       hasLoop = true;
+       break;
+     }
+
+     cell = cell.Next;
+     cell.Visited = true; //пометили как пройденную
+  }
+
+
+  cell = sentinel;
+  while(cell.Next != null){
+    cell.Visited = false;   
+    cell = cell.Next;
+  }
+
+  return hasLoop;
+
+}
+
+//трассировка
+//по списке  проходит один объект, а затем в его поисках другой
+function hasLoopRetracing(sentinel){
+  let cell = sentinel;
+  while(cell.Next != null){
+     let tracer = sentinel;
+     //пока не найдем текущую точку останова списка
+     while(tracer != cell){
+         //если следующий элемент списка совпал со следущим элементом трейсера 
+         //значит есть цикл, поскольку сам элемент списка еще не найден
+         if(tracer.Next == cell.Next){
+             //это начало цикла - рвем связь
+             cell.Next = null;
+            
+            return true;
+         }
+
+         tracer = tracer.Next;
+     }
+
+     cell = cell.Next;
+  }
+
+  return false;
+
+}
+
+
+//реверсируем цикл и возвращаем новое начало списка
+function ReverseList(sentinel){
+   let prev_cell = null;
+   let curr_cell = sentinel;
+
+   while(curr_cell != null){
+     //реверсируем список
+      let next_cell = curr_cell.Next;
+      curr_cell.Next = prev_cell;
+
+      prev_cell = curr_cell;
+      curr_cell = next_cell;
+   }
+
+   return prev_cell;
+}
+
+
+/* Алгоритм позволяет определить наличие цикла, но не устранить его */
+
+function hasLoopReversing(sentinel){
+  //если пустой
+   if(sentinel.Next == null) return false;
+
+   //проходим по списку реверсируя ссылки
+   let new_centinel = ReverseList(sentinel);
+
+   //вернем циклу обычное положение
+   ReverseList(new_centinel);
+
+   //если реверсивный алгоритм вернул тот же элемент, значит есть цикл
+   if(new_centinel == sentinel) return true;
+   return false;
+
+}
