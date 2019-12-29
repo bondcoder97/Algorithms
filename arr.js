@@ -27,12 +27,13 @@ function insertItem(arr, value, position){
 }
 
 
-//get size of N-dimension array
+//get size (number of elements) of N-dimension array
 function getArraySize(lower_bounds_list, upper_bounds_list){
-  let total_size = 0;
+  let total_size = 1;
   for(let i=0; i<lower_bounds_list.length; i++){
-     total_size = total_size * (upper_bounds_list[i]-lower_bounds_list[i]);
+     total_size += total_size * (upper_bounds_list[i]-lower_bounds_list[i]);
   }
 
   return total_size;
 }
+
