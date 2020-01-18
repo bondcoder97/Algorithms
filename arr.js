@@ -37,3 +37,76 @@ function getArraySize(lower_bounds_list, upper_bounds_list){
   return total_size;
 }
 
+
+
+//TRIANGLE ARRAY
+//two-dimensional
+class TriangleArray{
+    constructor(){
+       this._arr = [];
+    }
+
+
+    _getIndex(row, column){
+
+      if(column > row) throw new Error("Wrong indexes!");
+      // return  ((row - 1)** 2 + (row-1))/2 + column;
+      const index = Math.round(row*(row+1)/2)+column; 
+      return index;
+    }
+
+    addElem(elem ,row, column){
+       const index = this._getIndex(row, column);
+       this._arr[index] = elem; 
+    }
+
+    getElem(row, column){
+       return this._arr[this._getIndex(row, column)] 
+    }
+
+    deleteElem(row, column){
+       this._arr[this._getIndex(row, column)] = null;
+    }
+
+    //number of rows in array
+    rowsInArray(){
+      let rows = 0;
+      let numberOfElems = this._arr.length;
+      //max elems number in i-rows triangle array
+      let maxElemsNumber = 1;
+      let i = 1;
+
+      while(true){
+        
+         maxElemsNumber =  (  ((i - 1)**2) + (i-1) )/2;
+
+         if(maxElemsNumber >= numberOfElems){ 
+            return rows;
+         }
+
+         rows++;
+         i++;
+         
+      }     
+    }
+    
+
+
+    showArray(){
+      const numberOfRows = this.rowsInArray();
+      let result = "";
+      //rows
+      for(let i=0; i<numberOfRows; i++){
+          //columns
+          for(let j=0; j<=i; j++){
+            let currentElem = this.getElem(i, j);
+            result += (!currentElem ? " none ": ` ${currentElem} `);
+          }
+          result+="\n";
+      }
+
+      return result;
+    }
+
+}
+
