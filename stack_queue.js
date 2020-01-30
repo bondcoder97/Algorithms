@@ -70,6 +70,21 @@ class ArrayStack{
 }
 
 
+function ReverseArray(arr){
+    const stack = new ArrayStack();
+    for(let i=0; i<arr.length; i++)
+        stack.push(arr[i]);
+    
+    for(let j=0; j<arr.length; j++)
+        arr[j] = stack.pop(arr[j]);
+    
+    return arr;
+}
 
+
+
+class ListQueue{
+    
+}
 
 
