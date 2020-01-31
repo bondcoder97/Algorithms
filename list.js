@@ -106,6 +106,8 @@ class UnitrendList{
 }
 
 
+
+
 //cell for two trend list
 class TwoTrendListCell extends Cell{
   constructor(value="", Next=null, Previous=null){

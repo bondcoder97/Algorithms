@@ -10,6 +10,7 @@ class Cell{
    }
 
 
+
 class ListStack{
     constructor(options={}){
         this.top = options.top || new Cell("LIMITER");
@@ -83,8 +84,79 @@ function ReverseArray(arr){
 
 
 
-class ListQueue{
-    
+//cell for two trend list
+class TwoTrendListCell extends Cell{
+    constructor(value="", Next=null, Previous=null){
+        super(value, Next);
+        this.Previous = Previous;
+    }
+  }
+
+
+class TwoTrendList{
+    constructor(options={}){
+      //bounders
+      let bottomLimiter = new TwoTrendListCell("BOTTOM LIMITER");
+      this.top = options.top || new TwoTrendListCell("TOP LIMITER", bottomLimiter);
+      bottomLimiter.Previous = this.top;
+      this.bottom = bottomLimiter;
+    }
+
+    //iterate all list    
+  iterate(top = this.top){
+    while(top!=null){
+        console.log(top.value);
+        top = top.Next;
+    }
+  }
+ 
 }
+
+
+class ListQueue extends TwoTrendList{
+    constructor(){
+        super();
+    }
+
+    enqueue(new_value, top_sentinel=this.top){
+       //new cell creating
+       const new_cell = new TwoTrendListCell();
+       new_cell.value = new_value;
+
+       //add cell to the list
+       new_cell.Next = top_sentinel.Next;
+       top_sentinel.Next = new_cell;
+       new_cell.Previous = top_sentinel;
+       new_cell.Next.Previous = new_cell; //back connection
+    }
+    dequeue(bottom_sentinel=this.bottom){
+        
+        if(bottom_sentinel.Previous === this.top) throw new Error("Queue is empty!");
+
+        //last cell value
+        const result = bottom_sentinel.Previous.value;
+        bottom_sentinel.Previous = bottom_sentinel.Previous.Previous;
+        bottom_sentinel.Previous.Next = bottom_sentinel;
+
+        return result;
+    }
+}
+
+
+class ArrayQueue{
+    constructor(){
+        this._queue = [];
+    }
+    get queue(){
+        return this._queue;
+    }
+    enqueue(item){
+        this._queue.push(item)
+    }
+    dequeue(){
+        return this._queue.shift();
+    }
+}
+
 
 
