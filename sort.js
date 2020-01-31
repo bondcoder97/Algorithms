@@ -64,7 +64,7 @@ function moveMin(array, currentElem, nextElem,param = 'under'){
 
 
 
-window.bubbleSort = bubbleSort;
+// window.bubbleSort = bubbleSort;
 
 // console.log(...bubbleSort(startedArray,'under'));
 
@@ -148,12 +148,5 @@ function chooseSort(startArray,param){
 
 }
 
-console.log(...chooseSort(startedArray,'under'));
-console.log(...chooseSort(startedArray,'over'));
-
-//--------------------------------СОРТИРОВКА ВЫБОРОМ: КОНЕЦ --------------------------------------------------------------
-//-----------------------------------------СОРТИРОВКА ВСТАВКАМИ-----------------------------------------------------------
-
-
-
-//-----------------------------------------СОРТИРОВКА ВСТАВКАМИ:КОНЕЦ-----------------------------------------------------
+//console.log(...chooseSort(startedArray,'under'));
+//console.log(...chooseSort(startedArray,'over'));
