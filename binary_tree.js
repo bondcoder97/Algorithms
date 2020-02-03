@@ -82,26 +82,28 @@ class Heap extends FullBinaryTree{
        }
   }
 
-  // remove element
-  //we sink last element from top position of tree 
-  removeTopItem(arr=this._tree){
-    //top element saving 
-    let result = arr[0];
+  // remove any element
+  // heap contains many other heaps
+  remove(elem, arr=this._tree){
+    //top element saving
+
+    let remove_index = this.getElemIndex(elem);
+    if( !(~remove_index) ) throw new Error("Have not such element!");
+
+    let result = arr[remove_index];
     let count = arr.length;
 
-    arr[0] = arr[count-1];
+    arr[remove_index] = arr[count-1];    
+    let index = remove_index; //parent
     
-    let index = 0; //parent
-    
+    //sink last element from top position of tree 
     while(true){
       //get daughter indexes
       let child_index1 = 2*index+1;
       let child_index2= 2*index+2;
-
       
       if(child_index1 >= count) child_index1 = index;
       if(child_index2 >= count) child_index2 = index;
-
 
       //heap is right
       if( (arr[index] >= arr[child_index1]) &&  (arr[index] >= arr[child_index2]) ) break;
@@ -114,23 +116,17 @@ class Heap extends FullBinaryTree{
       else
             swap_child_index = child_index2;
       
-      swap(arr,swap_child_index, index);
+      swap(arr, swap_child_index, index);
       index = swap_child_index;
      
     }
+
+    arr.length = arr.length-1;
     
     return result;
 
   }
 }
-
-
-// let heap_arr = [81,12,15,296, 93,42, 3];
-// const heap = new Heap(heap_arr);
-// heap.add(200);
-// console.log( heap.removeTopItem() );
-// console.log( heap._tree );
-
 
 //swap elems of array
 function swap(arr, firstIndex, secondIndex){
